@@ -8,7 +8,7 @@
         function print_table($addresses){
             printf("<table border=1 width=500>");
             printf("<tr>");
-            printf("<td>名前</td><td>住所</td><td>電話</td><td>Email</td>");
+            printf("<th>名前</th><th>住所</th><th>電話</th><th>Email</th>");
             printf("</tr>");
             foreach($addresses as $key) {
                 foreach($key as $value){
