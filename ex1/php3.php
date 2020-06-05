@@ -12,7 +12,7 @@
 <body>
 <?php
         $addresses = array(['name'=>'東京太郎','address'=>'東京都','phone'=>'012-345-6789','email'=>'taro@example.com'],['name'=>'工科花子','address'=>'北海道','phone'=>'987-654-3210','email'=>'hana@example@.com']);
-        $addresses[] = get_line();
+        if($_POST != null)$addresses[] = get_line();
         print_table($addresses);
         
         function print_table($addresses){
@@ -38,7 +38,7 @@
             氏名<input type="text" name="name" id="name" value="">
             住所<input type="text" name="address" id="address" value="">
             電話番号<input type="text" name="phone" id="phone" value="">
-            メールアドレス<input type="text" name="email" id="email" value="">
+            メールアドレス<input type="text" name="email" id="email" value= "">
             <input type="submit" name="button1" id="button1" value="送信">
         </form>
         
