@@ -16,6 +16,9 @@
         $json = json_encode($addresses,JSON_UNESCAPED_UNICODE);
         var_dump($json);
         print_table($addresses);
+        $file_addresses = fopen("addresses.json","w+");
+        fwrite($file_addresses,"".$json."");
+        fclose($file_addresses);
         
         function print_table($addresses){
             printf("<table>");
