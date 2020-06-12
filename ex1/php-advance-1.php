@@ -28,9 +28,7 @@
         function print_acsess(){
             $acsess = (int)0;
             $acsess += $_SESSION['accsess'];
-            print("<th>");
-            print("".$acsess."回目の訪問です！");
-            print("</th>\n");
+            print("<p>".$acsess."回目の訪問です！</p>\n");
         } 
     ?>
 </body>
