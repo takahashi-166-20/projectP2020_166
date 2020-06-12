@@ -13,22 +13,24 @@
   
 </style>
 </head>
-<?php
-    session_start();
-    if($_SESSION['accsess']==null){
-        printf("初めての訪問です！");
-        $_SESSION['accsess'] += 1;
-    }
-    else{
-        $_SESSION['accsess'] += 1;
-        print_acsess();
-    }
-    
-    function print_acsess(){
-        $acsess = (int)0;
-        $acsess += $_SESSION['accsess'];
-        print("<th>");
-        print("".$acsess."回目の訪問です！</th>");
-        
-    } 
-?>
+<body>
+    <?php
+        session_start();
+        if($_SESSION['accsess']==null){
+            printf("初めての訪問です！");
+            $_SESSION['accsess'] += 1;
+        }
+        else{
+            $_SESSION['accsess'] += 1;
+            print_acsess();
+        }
+
+        function print_acsess(){
+            $acsess = (int)0;
+            $acsess += $_SESSION['accsess'];
+            print("<th>");
+            print("".$acsess."回目の訪問です！");
+            print("</th>\n");
+        } 
+    ?>
+</body>
