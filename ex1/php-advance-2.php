@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang = "ja">
-<?php
-    
-?>
 <head>
     <meta charset="UTF-8">
     <title>php-advance2</title>
@@ -16,11 +13,7 @@
 <body>
     <?php
      if($_POST != null){
-         //print("Successful:ファイルのアップロードに成功しました！");
          get_file();
-     }
-     else{
-         //print( "Error:ファイルが選択されていません。");
      }
     function get_file(){
         if (is_uploaded_file($_FILES["select_file"]["tmp_name"])) {
