@@ -12,9 +12,9 @@
 </head>
 <body>
     <?php
-     if($_POST != null){
-         get_file();
-     }
+    if($_POST != null){
+        get_file();
+    }
     function get_file(){
         if (is_uploaded_file($_FILES["select_file"]["tmp_name"])) {
             if(move_uploaded_file($_FILES["select_file"]["tmp_name"], $_FILES["select_file"]["name"])) {
