@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>js2</title>              
+    </head>
+    <body>
+        <input type="text" id = "textbox" value = "" >
+        <button id = "button1">送信</button>
+        <script>
+        var txt = document.getElementById("textbox");
+        var btn = document.getElementById("button1");
+        function put_message(){
+            alert(txt.value);
+        }
+        btn.addEventListener("click",put_message,false);
+        </script>  
+    </body>
+</html>
