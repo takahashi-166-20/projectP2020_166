@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>js3</title>              
+    </head>
+    <body>
+        <input type="checkbox" id = "check" value= "a">
+        <button id="button1">チェックの変更</button>
+        <script>
+        var check = document.getElementById("check");
+        var btn = document.getElementById("button1");
+        function check_button(){
+            if(check.checked == true) check.checked = false;
+            else check.checked = true;
+        }
+        btn.addEventListener("click",check_button,false);
+        </script>  
+    </body>
+</html>
