@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>js6.html</title> 
+    </head>
+    <body>
+        <input type="text" id="textbox">
+        <button id="button1" onclick="text_alert()">Get text "js6.php"</button>
+        <script>
+            req = new XMLHttpRequest();
+            var txt = document.getElementById("textbox");
+            function text_alert(){
+                req.open("POST",'js6_server.php',true);
+                req.setRequestHeader('content-type','application/x-www-form-urlencoded;charset=UTF-8');
+                req.onload = function(){
+                    window.alert(req.responseText);
+                }
+                req.send("text=" + encodeURIComponent(txt.value));
+            }
+        </script>             
+    </body>
+</html>
