@@ -8,15 +8,15 @@
         <input type="text" id="textbox" value="">
         <button id="button1" onclick="text_alert()">Get text "js5.php"</button>
         <script>
-             req = new XMLHttpRequest();
-             var txt = document.getElementById("textbox");
-             function text_alert(){
-                 req.open("GET",'js5_server.php?text='+encodeURIComponent(txt.value),true);
-                 req.onload = function(){
-                     window.alert(req.responseText);
-                 }
-                 req.send(null);
-             }
+            req = new XMLHttpRequest();
+            var txt = document.getElementById("textbox");
+            function text_alert(){
+                req.open("GET",'js5_server.php?text='+encodeURIComponent(txt.value),true);
+                req.onload = function(){
+                    window.alert(req.responseText);
+                }
+                req.send(null);
+            }
         </script>             
     </body>
 </html>
