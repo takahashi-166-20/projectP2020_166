@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>js5.html</title> 
+    </head>
+    <body>
+        <input type="text" id="textbox" value="">
+        <button id="button1" onclick="text_alert()">Get text "js5.php"</button>
+        <script>
+             req = new XMLHttpRequest();
+             var txt = document.getElementById("textbox");
+             function text_alert(){
+                 req.open("GET",'js5_server.php?text='+encodeURIComponent(txt.value),true);
+                 req.onload = function(){
+                     window.alert(req.responseText);
+                 }
+                 req.send(null);
+             }
+            function txt_alert(){
+                alert("js5_server.php?text="+encodeURIComponent(txt.value));
+            }
+        </script>             
+    </body>
+</html>
