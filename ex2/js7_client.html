@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>js7.html</title> 
+    </head>
+    <body>
+        <input type="text" id="textbox" value="">
+        <button id="button1" onclick="text_layer()">Get text "js7.php"</button>
+        <div id = "layer">データを送信するとここに表示されます</div>
+        <script>
+            req = new XMLHttpRequest();
+            var txt = document.getElementById("textbox");
+            var lay =document.getElementById("layer");
+            function text_layer(){
+                req.open("GET",'js7_server.php?text='+encodeURIComponent(txt.value),true);
+                req.onload = function(){
+                    lay.innerHTML = req.responseText;
+                }
+                req.send(null);
+            }
+        </script>             
+    </body>
+</html>
