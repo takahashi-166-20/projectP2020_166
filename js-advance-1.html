@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>js-advance-1</title>              
+    </head>
+    <body>
+        <input type="text" id = "textbox" oninput="prediction_text()">
+        <div id = "layer">ここに候補が表示されます</div>
+        <script>
+            var txt = document.getElementById("textbox");
+            var lay = document.getElementById("layer");
+            var predic = "<ul type = 'disc'>";
+            const languages = [
+                'Basic',
+                'C',
+                'C#',
+                'C++',
+                'D',
+                'Go',
+                'Haskell',
+                'Java',
+                'JavaScript',
+                'Kotlin',
+                'Objective-C',
+                'Perl',
+                'R',
+                'Swift',
+                'VisualBasic'
+            ]
+            function prediction_text(){
+                languages.forEach(element => {
+                    if(element.toLowerCase().indexOf(txt.value) == 0 || element.toUpperCase().indexOf(txt.value) == 0){
+                        predic += "<li>" + element + "</li>";
+                    }
+                });
+                predic += "</ul>"
+                lay.innerHTML = predic;
+                predic = "";
+            }
+        </script>
+    </body>
+</html>
