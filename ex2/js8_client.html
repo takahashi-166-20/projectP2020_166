@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>js8</title> 
+        <style>
+            table, tr, th, td {
+                border: 1px solid #000;
+            }
+        </style>             
+    </head>
+    <body>
+        <button id="button1" onclick="get_address()">Get text "js8.php"</button>
+        <div id = "layer">ここに住所録が表示されます</div>
+        <script>
+            req = new XMLHttpRequest();
+            var lay = document.getElementById("layer");
+            var txt = "<table><tr><th>名前</th><th>住所</th><th>電話</th><th>Email</th></tr>";
+            function get_address(){
+                req.open("GET","js8_server.php",true)
+                req.onload = function(){
+                    json=JSON.parse(req.responseText);
+                    Object.keys(json).forEach(element => {
+                        txt += "<tr>";
+                        txt += "<td>" + json[element]["name"] +"</td>";
+                        txt += "<td>" + json[element]["address"] +"</td>";
+                        txt += "<td>" + json[element]["phone"] +"</td>";
+                        txt += "<td>" + json[element]["email"] +"</td>";
+                        txt += "</tr>"
+                    });
+                    txt += "</table>"
+                    lay.innerHTML = txt;
+                }
+                req.send(null);
+            }
+        </script>
+    </body>
+</html>
