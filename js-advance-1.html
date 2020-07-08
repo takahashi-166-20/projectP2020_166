@@ -30,7 +30,8 @@
             ]
             function prediction_text(){
                 languages.forEach(element => {
-                    if(element.toLowerCase().indexOf(txt.value) == 0 || element.toUpperCase().indexOf(txt.value) == 0){
+                    if(txt.value == "") predic += "</ul>"
+                    else if(element.toLowerCase().indexOf(txt.value) == 0 || element.toUpperCase().indexOf(txt.value) == 0){
                         predic += "<li>" + element + "</li>";
                     }
                 });
