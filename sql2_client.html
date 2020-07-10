@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>sql2.html</title>
+    <style>
+        table, tr, th, td {
+          border:1px solid #000
+        }
+    </style>
+</head>
+<body>
+    <button onclick="get_addresses()">GET table "sql2"</button>
+    <table id="addresses">
+        <tr>
+            <th>名前</th>
+            <th>住所</th>
+            <th>電話</th>
+            <th>Email</th>
+        </tr>
+    </table>
+    <script>
+        req = new XMLHttpRequest();
+        var btn = document.getElementById("button1");
+        var table = document.getElementById("addresses");
+        function get_addresses(){
+            req.open("GET","sql2_server.php",true);
+            req.onload = function(){
+                json=JSON.parse(req.responseText);
+                Object.keys(json).forEach(element => {
+                    var row = table.insertRow(-1);
+                    var th = row.insertCell("th");
+                    var email = document.createTextNode(json[element]["email"]);
+                    th.appendChild(email);
+                    var th = row.insertCell("th");
+                    var phone = document.createTextNode(json[element]["phone"]);
+                    th.appendChild(phone);
+                    var th = row.insertCell("th");
+                    var address = document.createTextNode(json[element]["address"]);
+                    th.appendChild(address);
+                    var th = row.insertCell("th");
+                    var name = document.createTextNode(json[element]["name"]);
+                    th.appendChild(name);
+                });
+                
+            }
+            req.send(null);
+        }
+    </script>
+</body>
+</html>
