@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>sql3.html</title>
+    <style>
+        table, tr, th, td {
+          border:1px solid #000
+        }
+    </style>
+</head>
+<body>
+    <table id="addresses">
+        <tr>
+            <th>名前</th>
+            <th>住所</th>
+            <th>電話</th>
+            <th>Email</th>
+        </tr>
+    </table>
+    <input id = "name">
+    <input id = "address">
+    <input id = "phone">
+    <input id = "email">
+    <button id = "button" onclick="add_addresses()">add address</button>
+    <script>
+        var table = document.getElementById("addresses");
+        var btn2 = document.getElementById("button");
+        var txtname =document.getElementById("name");
+        var txtaddress =document.getElementById("address");
+        var txtphone =document.getElementById("phone");
+        var txtemail =document.getElementById("email");
+
+        function get_addresses(){
+            req = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req.open("GET","sql3_server.php",true);
+            req.onload = function(){
+                json=JSON.parse(req.responseText);
+                Object.keys(json).forEach(element => {
+                    var row = table.insertRow(-1);
+                    var th = row.insertCell("th");
+                    var email = document.createTextNode(json[element]["email"]);
+                    th.appendChild(email);
+                    var th = row.insertCell("th");
+                    var phone = document.createTextNode(json[element]["phone"]);
+                    th.appendChild(phone);
+                    var th = row.insertCell("th");
+                    var address = document.createTextNode(json[element]["address"]);
+                    th.appendChild(address);
+                    var th = row.insertCell("th");
+                    var name = document.createTextNode(json[element]["name"]);
+                    th.appendChild(name);
+                });
+            }
+            req.send(null);
+        }
+        function add_addresses(){
+            req2 = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req2.open("GET","sql3_server.php?name="+txtname.value+"&address="+txtaddress.value+"&phone="+txtphone.value+"&email="+txtemail.value,true);
+            req2.onload = function(){
+                get_addresses();
+            }
+            req2.send(null);
+        }
+        get_addresses();
+    </script>
+</body>
+</html>
