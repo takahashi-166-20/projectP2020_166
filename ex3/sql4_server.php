@@ -15,7 +15,7 @@
     
     if(isset($_GET["slctname"])){
         $name = $_GET["slctname"];
-        $statement = $pdo -> query("SELECT * FROM addresses WHERE name = '$name'");
+        $statement = $pdo -> query("SELECT * FROM addresses WHERE name LIKE '%$name%'");
     }
     else $statement = $pdo -> query("SELECT * FROM addresses");
     $results = $statement->fetchAll();
