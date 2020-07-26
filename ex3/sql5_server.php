@@ -9,7 +9,7 @@
         $address = $_GET["add_address"];
         $phone = $_GET["add_phone"];
         $email = $_GET["add_email"];
-        $pdo -> query("INSERT INTO addresses VALUE('$name','$address','$phone','$email');");
+        $pdo -> query("INSERT INTO addresses(name,address,phone,email) VALUE('$name','$address','$phone','$email');");
     }
     
     if(isset($_GET["chg_id"])&&isset($_GET["chg_name"])&&isset($_GET["chg_address"])&&isset($_GET["chg_phone"])&&isset($_GET["chg_email"])){
@@ -21,8 +21,8 @@
         $pdo -> query("UPDATE addresses SET `name`='$name',`address`='$address',`phone`='$phone',`email`='$email' WHERE id ='$id';");
     }
 
-    if(isset($_GET["slctname"])){
-        $name = $_GET["slctname"];
+    if(isset($_GET["slct_name"])){
+        $name = $_GET["slct_name"];
         $statement = $pdo -> query("SELECT * FROM addresses WHERE name LIKE '%$name%'");
     }
     else $statement = $pdo -> query("SELECT * FROM addresses");

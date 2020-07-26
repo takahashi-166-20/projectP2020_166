@@ -24,7 +24,7 @@
     <input id = "email">
     <button id = "button" onclick="add_addresses()">add address</button></br>
     <input id = "slct_name">
-    <button id = "slct_btn" onclick ="slct_addresses()">select name in SQL</button></br>
+    <button id = "slct_btn" onclick ="slct_addresses()">select name in SQL4</button></br>
     <select id= "chg_id" >id</select>
     <input id = "chg_name">
     <input id = "chg_address">
@@ -48,14 +48,20 @@
         var chg_btn = document.getElementById("chg_btn");
 
         function get_id(){
+            req5 = new XMLHttpRequest();
             var id_num = table.rows.length-1;
             chg_id.innerHTML = "";
-            for(let i = 1; i<=id_num; i++){
-            let option = document.createElement("option");
-                option.setAttribute("value",i);
-                option.innerHTML = i;
-                chg_id.appendChild(option);
+            req5.open("GET","sql5_server.php",true);
+            req5.onload = function(){
+                json=JSON.parse(req5.responseText);
+                Object.keys(json).forEach(element =>{
+                    let option = document.createElement("option");
+                        option.setAttribute("value",json[element]["id"]);
+                        option.innerHTML = json[element]["id"];
+                        chg_id.appendChild(option);
+                });
             }
+            req5.send(null);
         }
 
         function get_addresses(){
@@ -86,7 +92,7 @@
         function add_addresses(){
             req2 = new XMLHttpRequest();
             while(table.rows[1]) table.deleteRow(1);
-            req2.open("GET","sql5_server.php?name="+txtname.value+"&address="+txtaddress.value+"&phone="+txtphone.value+"&email="+txtemail.value,true);
+            req2.open("GET","sql5_server.php?add_name="+txtname.value+"&add_address="+txtaddress.value+"&add_phone="+txtphone.value+"&add_email="+txtemail.value,true);
             req2.onload = function(){
                 get_addresses();
             }
