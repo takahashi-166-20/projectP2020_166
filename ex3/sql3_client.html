@@ -58,7 +58,7 @@
         function add_addresses(){
             req2 = new XMLHttpRequest();
             while(table.rows[1]) table.deleteRow(1);
-            req2.open("GET","sql3_server.php?name="+txtname.value+"&address="+txtaddress.value+"&phone="+txtphone.value+"&email="+txtemail.value,true);
+            req2.open("GET","sql3_server.php?add_name="+txtname.value+"&add_address="+txtaddress.value+"&add_phone="+txtphone.value+"&add_email="+txtemail.value,true);
             req2.onload = function(){
                 get_addresses();
             }

@@ -6,11 +6,11 @@
     $pdo = new PDO('mysql:host=localhost;dbname=address_book;port=8889;charset=utf8',$username,$password);
     
     if(isset($_GET["add_name"])&&isset($_GET["add_address"])&&isset($_GET["add_phone"])&&isset($_GET["add_email"])){
-        $name = $_GET["name"];
-        $address = $_GET["address"];
-        $phone = $_GET["phone"];
-        $email = $_GET["email"];
-        $pdo -> query("INSERT INTO addresses VALUE('$name','$address','$phone','$email');");
+        $name = $_GET["add_name"];
+        $address = $_GET["add_address"];
+        $phone = $_GET["add_phone"];
+        $email = $_GET["add_email"];
+        $pdo -> query("INSERT INTO addresses(name,address,phone,email) VALUE('$name','$address','$phone','$email');");
     }
     
     $statement = $pdo -> query("SELECT * FROM addresses");
