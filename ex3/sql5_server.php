@@ -25,9 +25,6 @@
         if($_GET["chg_email"] == "") $email=$results[0]["email"];
         else $email = $_GET["chg_email"];
         $pdo -> query("UPDATE addresses SET `name`='$name',`address`='$address',`phone`='$phone',`email`='$email' WHERE id ='$id';");
-        // $json = json_encode($results,JSON_UNESCAPED_UNICODE);
-        // print($json);
-        // exit;
     }
 
     if(isset($_GET["slct_name"])){
