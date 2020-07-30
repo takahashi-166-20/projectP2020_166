@@ -12,6 +12,35 @@
             $pdo -> query("INSERT INTO addresses(name,address,phone,email) VALUE('$name','$address','$phone','$email');");    
     }
     
+    // if(isset($_POST["add_file"])){
+    //     $file_name = $_POST["add_file"];
+    //     if($file_name = "/.json/"){
+    //         $fp = fopen($file_name,"r");
+    //         $json = fgets($fp);
+    //         $addresses = json_decode($json,true);
+    //         foreach($addresses as $key) {
+    //             var_dump($key["name"]);
+    //             $name = $key["name"];
+    //             $address = $key["address"];
+    //             $phone = $key["phone"];
+    //             $email = $key["email"];
+    //             $pdo -> query("INSERT INTO addresses(name,address,phone,email) VALUE('$name','$address','$phone','$email');");           
+    //         }
+    //         fclose($fp);
+    //     }else if($file_name = "/.csv/"){
+    //         $fp = fopen($file_name,"r");
+    //         $addresses = fgetcsv($fp);
+    //         foreach($addresses as $key) {
+    //             $name = $key["name"];
+    //             $address = $key["address"];
+    //             $phone = $key["phone"];
+    //             $email = $key["email"];
+    //             $pdo -> query("INSERT INTO addresses(name,address,phone,email) VALUE('$name','$address','$phone','$email');");           
+    //         }
+    //         fclose($fp);
+    //     }
+    // }
+
     if(isset($_GET["chg_id"])&&isset($_GET["chg_name"])&&isset($_GET["chg_address"])&&isset($_GET["chg_phone"])&&isset($_GET["chg_email"])){
         $id = $_GET["chg_id"];
         $name = $_GET["chg_name"];
@@ -27,7 +56,7 @@
     if(isset($_GET["del_tag"])&&isset($_GET["del_value"])){
         $tag=$_GET["del_tag"];
         $value=$_GET["del_value"];
-        $pdo -> query("DELETE FROM `addresses` WHERE $tag LIKE '$value';");
+        $pdo -> query("DELETE FROM `addresses` WHERE $tag LIKE '%$value%';");
     }
 
     if(isset($_GET["slct_tag"])&&$_GET["slct_value"]){
