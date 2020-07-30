@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>sql6.html</title>
+    <style>
+        table, tr, th, td {
+          border:1px solid #000
+        }
+    </style>
+</head>
+<body>
+    <table id="addresses">
+        <tr>
+            <th>ID</th>
+            <th>名前</th>
+            <th>住所</th>
+            <th>電話</th>
+            <th>Email</th>
+        </tr>
+    </table>
+    名前:<input id = "add_name">
+    住所:<input id = "add_address">
+    電話:<input id = "add_phone">
+    Email:<input id = "add_email">
+    <button id = "add_button" onclick="add_addresses()">挿入</button><br>
+    名前:<input id = "slct_name">
+    <button id = "slct_btn" onclick ="slct_addresses()">検索</button><br>
+    ID:<select id= "chg_id"></select>
+    名前:<input id = "chg_name">
+    住所:<input id = "chg_address">
+    電話:<input id = "chg_phone">
+    Email:<input id = "chg_email">
+    <button id = "chg_btn" onclick="chg_addresses()">更新</button>
+    <button id = "del_btn" onclick="del_addresses()">削除</button>
+    <script>
+        var table = document.getElementById("addresses");
+        var txtname =document.getElementById("add_name");
+        var txtaddress =document.getElementById("add_address");
+        var txtphone =document.getElementById("add_phone");
+        var txtemail =document.getElementById("add_email");
+        var slct_name =document.getElementById("slct_name");
+        var chg_id = document.getElementById("chg_id");
+        var chg_name = document.getElementById("chg_name");
+        var chg_address = document.getElementById("chg_address");
+        var chg_phone = document.getElementById("chg_phone");
+        var chg_email = document.getElementById("chg_email");
+
+        function get_id(){
+            req5 = new XMLHttpRequest();
+            var id_num = table.rows.length-1;
+            chg_id.innerHTML = "";
+            req5.open("GET","sql6_server.php",true);
+            req5.onload = function(){
+                json=JSON.parse(req5.responseText);
+                Object.keys(json).forEach(element =>{
+                    let option = document.createElement("option");
+                        option.setAttribute("value",json[element]["id"]);
+                        option.innerHTML = json[element]["id"];
+                        chg_id.appendChild(option);
+                });
+            }
+            req5.send(null);
+        }
+
+        function get_addresses(){
+            req = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req.open("GET","sql6_server.php",true);
+            req.onload = function(){
+                json=JSON.parse(req.responseText);
+                Object.keys(json).forEach(element => {
+                    var row = table.insertRow(-1);
+                    var th = row.insertCell("th");
+                    var email = document.createTextNode(json[element]["email"]);
+                    th.appendChild(email);
+                    var th = row.insertCell("th");
+                    var phone = document.createTextNode(json[element]["phone"]);
+                    th.appendChild(phone);
+                    var th = row.insertCell("th");
+                    var address = document.createTextNode(json[element]["address"]);
+                    th.appendChild(address);
+                    var th = row.insertCell("th");
+                    var name = document.createTextNode(json[element]["name"]);
+                    th.appendChild(name);
+                    var th_id = row.insertCell("th");
+                    var id = document.createTextNode(json[element]["id"]);
+                    th_id.appendChild(id);
+                    
+                });
+                get_id();
+            }
+            req.send(null);
+        }
+        function add_addresses(){
+            req2 = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req2.open("GET","sql6_server.php?add_name="+txtname.value+"&add_address="+txtaddress.value+"&add_phone="+txtphone.value+"&add_email="+txtemail.value,true);
+            req2.onload = function(){
+                get_addresses();
+            }
+            req2.send(null);
+        }
+        function slct_addresses(){
+            req3 = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req3.open("GET","sql6_server.php?slct_name="+slct_name.value);
+            req3.onload = function(){
+                json=JSON.parse(req3.responseText);
+                Object.keys(json).forEach(element => {
+                    var row = table.insertRow(-1);
+                    var th = row.insertCell("th");
+                    var email = document.createTextNode(json[element]["email"]);
+                    th.appendChild(email);
+                    var th = row.insertCell("th");
+                    var phone = document.createTextNode(json[element]["phone"]);
+                    th.appendChild(phone);
+                    var th = row.insertCell("th");
+                    var address = document.createTextNode(json[element]["address"]);
+                    th.appendChild(address);
+                    var th = row.insertCell("th");
+                    var name = document.createTextNode(json[element]["name"]);
+                    th.appendChild(name);
+                });
+            }
+            req3.send(null);
+        }
+        
+        function chg_addresses(){
+            var chg_clm = {id : chg_id.value ,name : chg_name.value , address : chg_address.value , phone : chg_phone.value , email : chg_email.value};
+            req4 = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req4.open("GET","sql6_server.php?chg_id="+chg_clm["id"]+"&chg_name="+chg_clm.name+"&chg_address="+chg_clm.address+"&chg_phone="+chg_clm.phone+"&chg_email="+chg_clm.email,true);
+            req4.onload = function(){
+                json=JSON.parse(req4.responseText);
+                get_addresses();
+            }
+            req4.send(null);
+        }
+
+        function del_addresses(){
+            req6 = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req6.open("GET","sql6_server.php?del_id="+chg_id.value,true);
+            req6.onload = function(){
+                get_addresses();
+            }
+            req6.send(null);
+        }
+        get_addresses();
+    </script>
+</body>
+</html>
