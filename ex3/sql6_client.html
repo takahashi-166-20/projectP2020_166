@@ -23,10 +23,10 @@
     住所:<input id = "add_address">
     電話:<input id = "add_phone">
     Email:<input id = "add_email">
-    <button id = "add_button" onclick="add_addresses()">挿入</button></br>
+    <button id = "add_button" onclick="add_addresses()">挿入</button><br>
     名前:<input id = "slct_name">
-    <button id = "slct_btn" onclick ="slct_addresses()">検索</button></br>
-    ID:<select id= "chg_id" >id</select>
+    <button id = "slct_btn" onclick ="slct_addresses()">検索</button><br>
+    ID:<select id= "chg_id"></select>
     名前:<input id = "chg_name">
     住所:<input id = "chg_address">
     電話:<input id = "chg_phone">
@@ -86,6 +86,7 @@
                     var th_id = row.insertCell("th");
                     var id = document.createTextNode(json[element]["id"]);
                     th_id.appendChild(id);
+                    
                 });
                 get_id();
             }
@@ -120,16 +121,6 @@
                     var th = row.insertCell("th");
                     var name = document.createTextNode(json[element]["name"]);
                     th.appendChild(name);
-                    var th_id = row.insertCell("th");
-                    var id = document.createTextNode(json[element]["id"]);
-                    th_id.appendChild(id);
-                });
-                chg_id.innerHTML = "";
-                Object.keys(json).forEach(element =>{
-                    let option = document.createElement("option");
-                        option.setAttribute("value",json[element]["id"]);
-                        option.innerHTML = json[element]["id"];
-                        chg_id.appendChild(option);
                 });
             }
             req3.send(null);

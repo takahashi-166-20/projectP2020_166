@@ -11,7 +11,9 @@
         $email = $_GET["add_email"];
         $pdo -> query("INSERT INTO addresses(name,address,phone,email) VALUE('$name','$address','$phone','$email');");
     }
+
     
+
     if(isset($_GET["chg_id"])&&isset($_GET["chg_name"])&&isset($_GET["chg_address"])&&isset($_GET["chg_phone"])&&isset($_GET["chg_email"])){
         $id = $_GET["chg_id"];
         $statement = $pdo -> query("SELECT * FROM addresses WHERE id LIKE '%$id%'");
