@@ -12,6 +12,7 @@
 <body>
     <table id="addresses">
         <tr>
+            <th>ID</th>
             <th>名前</th>
             <th>住所</th>
             <th>電話</th>
@@ -82,6 +83,9 @@
                     var th = row.insertCell("th");
                     var name = document.createTextNode(json[element]["name"]);
                     th.appendChild(name);
+                    var th_id = row.insertCell("th");
+                    var id = document.createTextNode(json[element]["id"]);
+                    th_id.appendChild(id);
                 });
                 get_id();
             }
@@ -116,6 +120,16 @@
                     var th = row.insertCell("th");
                     var name = document.createTextNode(json[element]["name"]);
                     th.appendChild(name);
+                    var th_id = row.insertCell("th");
+                    var id = document.createTextNode(json[element]["id"]);
+                    th_id.appendChild(id);
+                });
+                chg_id.innerHTML = "";
+                Object.keys(json).forEach(element =>{
+                    let option = document.createElement("option");
+                        option.setAttribute("value",json[element]["id"]);
+                        option.innerHTML = json[element]["id"];
+                        chg_id.appendChild(option);
                 });
             }
             req3.send(null);
