@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>sql-advance.html</title>
+    <style>
+        table, tr, th, td {
+          border:1px solid #000
+        }
+    </style>
+</head>
+<body>
+    <table id="addresses">
+        <tr>
+            <th></th>
+            <th>ID</th>
+            <th>名前</th>
+            <th>住所</th>
+            <th>電話</th>
+            <th>Email</th>
+        </tr>
+    </table>
+    名前:<input id = "add_name">
+    住所:<input id = "add_address">
+    電話:<input id = "add_phone">
+    Email:<input id = "add_email">
+    <button id = "button" onclick="add_addresses()">挿入</button></br>
+    カラム名<select id = "slct_tag">
+        <option value="name">名前</option>
+        <option value="address">住所</option>
+        <option value="phone">電話</option>
+        <option value="email">Email</option>
+    </select>
+    が<input id = "slct_text">に一致するレコードを
+    <button id = "slct_btn" onclick ="slct_addresses()">検索する</button>
+    <button id = "slct_del" onclick ="slct_del()">一括で削除する</button></br>
+    ID:<select id= "chg_id" >id</select>
+    名前:<input id = "chg_name">
+    住所:<input id = "chg_address">
+    電話:<input id = "chg_phone">
+    Email:<input id = "chg_email">
+    <button id = "chg_btn" onclick="chg_addresses()">更新</button>
+    <button id = "del_btn" onclick="del_addresses()">削除</button><br>
+    <button id = "check_del" onclick="check_delete()">チェックを付けたレコードを削除する</button>
+    
+    <script>
+        var table = document.getElementById("addresses");
+        var txtname =document.getElementById("add_name");
+        var txtaddress =document.getElementById("add_address");
+        var txtphone =document.getElementById("add_phone");
+        var txtemail =document.getElementById("add_email");
+        var slct_tag =document.getElementById("slct_tag");
+        var slct_txt =document.getElementById("slct_text");
+        var chg_id = document.getElementById("chg_id");
+        var chg_name = document.getElementById("chg_name");
+        var chg_address = document.getElementById("chg_address");
+        var chg_phone = document.getElementById("chg_phone");
+        var chg_email = document.getElementById("chg_email");
+        var check = document.getElementById("check");
+        var delete_id = {};
+
+        function get_id(){
+            req5 = new XMLHttpRequest();
+            var id_num = table.rows.length-1;
+            chg_id.innerHTML = "";
+            req5.open("GET","sql-advance_server.php",true);
+            req5.onload = function(){
+                json=JSON.parse(req5.responseText);
+                Object.keys(json).forEach(element =>{
+                    let option = document.createElement("option");
+                    option.setAttribute("value",json[element]["id"]);
+                    option.innerHTML = json[element]["id"];
+                    chg_id.appendChild(option); 
+                });
+            }
+            req5.send(null);
+        }
+
+        function get_addresses(){
+            req = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req.open("GET","sql-advance_server.php",true);
+            req.onload = function(){
+                json=JSON.parse(req.responseText);
+                Object.keys(json).forEach(element => {
+                    let check = document.createElement('input');
+                    check.setAttribute('type','checkbox');
+                    check.setAttribute("id","check_"+json[element]["id"]);
+                    check.setAttribute('value',json[element]["id"]);
+                    check.setAttribute("onchange","slct_check(this.checked,this.value)");
+                    var row = table.insertRow(-1);
+                    var th = row.insertCell("th");
+                    var email = document.createTextNode(json[element]["email"]);
+                    th.appendChild(email);
+                    var th = row.insertCell("th");
+                    var phone = document.createTextNode(json[element]["phone"]);
+                    th.appendChild(phone);
+                    var th = row.insertCell("th");
+                    var address = document.createTextNode(json[element]["address"]);
+                    th.appendChild(address);
+                    var th = row.insertCell("th");
+                    var name = document.createTextNode(json[element]["name"]);
+                    th.appendChild(name);
+                    var th_id = row.insertCell("th");
+                    var id = document.createTextNode(json[element]["id"]);
+                    th_id.appendChild(id);
+                    var th = row.insertCell("th");
+                    th.appendChild(check);
+                });
+                get_id();
+            }
+            req.send(null);
+        }
+
+        function add_addresses(){
+            if(!txtemail.value.match(/^[a-zA-Z0-9]@[a-zA-Z0-9].[a-zA-Z0-9]*$/	)) {
+                alert("メールアドレスは半角英数を使用し、以下の形式で入力してください。\n例：abc@example.com");
+                get_addresses();
+            }else if(txtphone.value.match(/^\d{3}-\d{3}-\d{4}$/)){
+                alert("電話番号は半角数字のみ、以下のようにハイフンで区切って入力してください。\n例：000-111-2222");
+                get_addresses();
+            }
+            else{
+                req2 = new XMLHttpRequest();
+                while(table.rows[1]) table.deleteRow(1);
+                req2.open("GET","sql-advance_server.php?add_name="+txtname.value+"&add_address="+txtaddress.value+"&add_phone="+txtphone.value+"&add_email="+txtemail.value,true);
+                req2.onload = function(){
+                    get_addresses();
+                }
+                req2.send(null);
+            }
+        }
+
+        function slct_addresses(){
+            req3 = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req3.open("GET","sql-advance_server.php?slct_tag="+slct_tag.value+"&slct_value="+slct_txt.value);
+            req3.onload = function(){
+                json=JSON.parse(req3.responseText);
+                Object.keys(json).forEach(element => {
+                    let check = document.createElement('input');
+                    check.setAttribute('type','checkbox');
+                    check.setAttribute("id","check_"+json[element]["id"]);
+                    check.setAttribute('value',json[element]["id"]);
+                    check.setAttribute("onchange","slct_check(this.checked,this.value)");
+                    
+                    var row = table.insertRow(-1);
+                    var th = row.insertCell("th");
+                    var email = document.createTextNode(json[element]["email"]);
+                    th.appendChild(email);
+                    var th = row.insertCell("th");
+                    var phone = document.createTextNode(json[element]["phone"]);
+                    th.appendChild(phone);
+                    var th = row.insertCell("th");
+                    var address = document.createTextNode(json[element]["address"]);
+                    th.appendChild(address);
+                    var th = row.insertCell("th");
+                    var name = document.createTextNode(json[element]["name"]);
+                    th.appendChild(name);
+                    var th_id = row.insertCell("th");
+                    var id = document.createTextNode(json[element]["id"]);
+                    th_id.appendChild(id);
+                    var th = row.insertCell("th");
+                    th.appendChild(check);
+                });
+            }
+            req3.send(null);
+        }
+
+        function chg_addresses(){
+            req4 = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req4.open("GET","sql-advance_server.php?chg_id="+chg_id.value+"&chg_name="+chg_name.value+"&chg_address="+chg_address.value+"&chg_phone="+chg_phone.value+"&chg_email="+chg_email.value,true);
+            req4.onload = function(){
+                get_addresses();
+            }
+            req4.send(null);
+        }
+        
+        function del_addresses(){
+            req6 = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            req6.open("GET","sql-advance_server.php?del_id="+chg_id.value,true);
+            req6.onload = function(){
+                get_addresses();
+            }
+            req6.send(null);
+        }
+
+        function check_delete(){
+            req7 = new XMLHttpRequest();
+            Object.keys(delete_id).forEach(element => {
+                if(delete_id[element] == "on"){
+                    req7.open("GET","sql-advance_server.php?del_id="+element,true);
+                    req7.onload = function(){
+                        get_addresses();
+                    }
+                    req7.send(null);
+                }
+            });
+            delete_id = {};
+        }
+
+        function slct_del(){
+            req8 = new XMLHttpRequest();
+            while(table.rows[1]) table.deleteRow(1);
+            if(slct_txt.value == ""){
+                get_addresses();
+            }
+            else{
+                req8.open("GET","sql-advance_server.php?del_tag="+slct_tag.value+"&del_value="+slct_txt.value);
+                req8.onload = function(){
+                    get_addresses();
+                }
+                req8.send(null);
+            }
+        }
+
+        function slct_check(checked,value){
+            if(checked == true){
+                delete_id[value] = "on";
+            }
+            else delete_id[value] = "off";
+        }
+        get_addresses();
+    </script>
+</body>
+</html>
